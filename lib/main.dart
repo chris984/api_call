@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<Photos> getPhotos() async {
-  final response = await http
-      .get(Uri.parse("https://jsonplaceholder.typicode.com/photos/1"));
+  final response =
+      await http.get(Uri.parse("http://192.168.1.4:8000/api/user/5"));
 
   if (response.statusCode == 200) {
-    return Photos.fromJson(jsonDecode(response.body));
+    return Photos.fromJson(jsonDecode(response.body)[0]);
   } else {
     throw Exception('Failed to load data');
   }
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('API Data Example'),
+          title: const Text('API'),
         ),
         body: Container(
           child: Padding(
@@ -58,18 +58,31 @@ class _MyAppState extends State<MyApp> {
                   return Column(
                     children: [
                       Text(
-                        photo.data!.title,
+                        photo.data!.firstName,
                         style: const TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 24.0),
                       ),
                       SizedBox(
-                        height: 15.0,
+                        width: 5,
                       ),
-                      Image.network(
-                        '${photo.data!.thumbnailUrl}',
-                        width: 300,
-                        height: 300,
+                      Text(
+                        photo.data!.middleName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 24.0),
                       ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        photo.data!.lastName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 24.0),
+                      ),
+                      // Image.network(
+                      //   '${photo.data!.thumbnailUrl}',
+                      //   width: 300,
+                      //   height: 300,
+                      // ),
                     ],
                   );
                 } else if (photo.hasError) {
